@@ -12,7 +12,7 @@ from email_notify import send_login_notification
 from audit import log_event
 
 # Load environment variables from .env file
-load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -146,11 +146,11 @@ def verify_otp():
     otp_submitted = data.get('otp')
 
     # Checks that the user actually completed step 1 first.
-    if 'pending_user_id' not in session:
+    if 'awaiting_user_id' not in session:
         return jsonify({'error': 'No active login session. Please login first.'}), 401
 
-    user_id = session['pending_user_id']
-    username = session['pending_username']
+    user_id = session['awaiting_user_id']
+    username = session['awaiting_username']
 
     if not otp_submitted:
         return jsonify({'error': 'OTP code is required'}), 400
