@@ -208,3 +208,33 @@ def verify_otp():
     except Exception as e:
         print(f"OTP verification error: {e}")
         return jsonify({'error': 'Verification failed'}), 500
+
+
+# Access Granted endpoint, only accessible to authenticated users. Returns a welcome message with the username.
+@app.route('/dashboard', methods=['GET'])
+def dashboard():
+    if not session.get('authenticated'):
+        return jsonify({'error': 'Access denied. Please log in.'}), 401
+
+    return jsonify({
+        'message': f'Welcome to the dashboard, {session["username"]}!',
+        'status': 'authenticated'
+    }), 200
+
+
+# Logout endpoint, clears the session and logs the logout event for auditing purposes.
+@app.route('/logout', methods=['POST'])
+def logout():
+    username = session.get('username', 'Unknown')
+    user_id = session.get('user_id')
+
+    session.clear()
+
+    log_event('LOGOUT', True, user_id=user_id, ip_address=request.remote_addr)
+
+    return jsonify({'message': 'Logged out successfully'}), 200
+
+# Start the Flask application, initializing the database if it doesn't exist. Sets the application to run in debug mode on port 5000.
+if __name__ == '__main__':
+    init_db()
+    app.run(debug=True, port=5000)
