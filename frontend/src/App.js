@@ -14,7 +14,11 @@ const styles = {
     justifyContent: 'center',
     fontFamily: "'Inter', 'Segoe UI', sans-serif",
     color: '#e2e8f0',
-    padding: '20px'
+    padding: '20px',
+  },
+  container: {
+    width: '100%',
+    maxWidth: '420px',
   },
   title: {
     fontFamily: 'monospace',
@@ -23,15 +27,15 @@ const styles = {
     letterSpacing: '0.15em',
     textTransform: 'uppercase',
     marginBottom: '8px',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   subtitle: {
     color: '#7b8db0',
     fontSize: '0.85rem',
     textAlign: 'center',
     marginBottom: '32px',
-    letterSpacing: '0.05em'
-  }
+    letterSpacing: '0.05em',
+  },
 };
 
 {/* Main App component that manages the state of the application and renders different screens based on user actions. */}
@@ -42,16 +46,28 @@ function App() {
   const [username, setUsername] = useState('');
 
   return (
-    <div style={{ maxWidth: '400px', margin: '80px auto', fontFamily: 'Arial, sans-serif' }}>
-      <h1 style={{ textAlign: 'center' }}>MFA System</h1>
+    <div style={styles.page}>
+      <div style={styles.container}>
+        <h1 style={styles.title}>MFA System</h1>
+        <p style={styles.subtitle}>Secure sign-in with multi-factor authentication</p>
 
-      {/* Render the appropriate screen based on the current state, must be true */}
-      {screen === 'register' && (<Register onSuccess={() => setScreen('login')} />)}
-      {screen === 'login' && (<Login onSuccess={(user) => { setUsername(user); setScreen('verify'); }} onRegister={() => setScreen('register')}/>)}
-      {screen === 'verify' && (<VerifyOTP onSuccess={() => setScreen('dashboard')}/>)}
-      {screen === 'dashboard' && (<Dashboard username={username} onLogout={() => setScreen('login')} />)}
+        {/* Render the appropriate screen based on the current state. */}
+        {screen === 'register' && <Register onSuccess={() => setScreen('login')} />}
+        {screen === 'login' && (
+          <Login
+            onSuccess={(user) => {
+              setUsername(user);
+              setScreen('verify');
+            }}
+            onRegister={() => setScreen('register')}
+          />
+        )}
+        {screen === 'verify' && <VerifyOTP onSuccess={() => setScreen('dashboard')} />}
+        {screen === 'dashboard' && <Dashboard username={username} onLogout={() => setScreen('login')} />}
+      </div>
     </div>
   );
 }
 
 export default App;
+
