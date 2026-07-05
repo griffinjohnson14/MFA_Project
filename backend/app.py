@@ -53,9 +53,9 @@ def register():
         # Password is hashed before storing in the database for security.
         password_hash = hash_password(password)
 
-        cursor.execute(''' INSERT INTO users (username, password_hash, phone, email) VALUES (?, ?, ?, ?) ''', (username, password_hash, phone, email))
+        cursor.execute('INSERT INTO users (username, password_hash, phone, email) VALUES (?, ?, ?, ?)', (username, password_hash, phone, email))
 
-        # Logged the registration event for auditing purposes.
+        # Log the registration event for auditing purposes.
         user_id = cursor.lastrowid
         conn.commit() 
         conn.close()
@@ -68,7 +68,7 @@ def register():
         print(f"Registration error: {e}")
         return jsonify({'error': 'Registration failed'}), 500
     
-# Username and password are checked, if they are valid then generate an OTP and send it to the user's phone. 
+# Username and password are checked; if valid, an OTP is generated and sent to the user's email.
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -103,24 +103,25 @@ def login():
             new_attempts = user['failed_attempts'] + 1
             
             if new_attempts >= MAX_FAILED_ATTEMPTS:
-                # Account lockout.
+                # Lock account for LOCKOUT_MINUTES.
                 locked_until = (datetime.utcnow() + timedelta(minutes=LOCKOUT_MINUTES)).strftime('%Y-%m-%d %H:%M:%S')
-                cursor.execute(''' UPDATE users SET failed_attempts = ?, locked_until = ? WHERE id = ? ''', (new_attempts, locked_until, user['id']))
+                cursor.execute('UPDATE users SET failed_attempts = ?, locked_until = ? WHERE id = ?', (new_attempts, locked_until, user['id']))
                 log_event('ACCOUNT_LOCKED', False, user_id=user['id'], ip_address=request.remote_addr)
             else:
-                cursor.execute(''' UPDATE users SET failed_attempts = ? WHERE id = ? ''', (new_attempts, user['id']))
+                cursor.execute('UPDATE users SET failed_attempts = ? WHERE id = ?', (new_attempts, user['id']))
                 log_event('LOGIN_FAIL', False, user_id=user['id'], ip_address=request.remote_addr)
 
             conn.commit()
             conn.close()
-            return jsonify({'error': 'Invalid credentials'}), 401 
+            return jsonify({'error': 'Invalid credentials'}), 401
         
-        # If the password is correct, generate an OTP and store it in the database with an expiration time of 5 minutes. Then reset the failed attempts counter and clear any lockout status.
+        # If the password is correct, generate an OTP and store it in the database with a 5-minute expiration.
+        # Reset failed attempts counter and clear any lockout status.
         otp_code = generate_otp()
         expires_at = get_otp_expiration()
 
-        cursor.execute(''' INSERT INTO otp_codes (user_id, code, expires_at) VALUES (?, ?, ?) ''', (user['id'], otp_code, expires_at))
-        cursor.execute(''' UPDATE users SET failed_attempts = 0, locked_until = NULL WHERE id = ? ''', (user['id'],))
+        cursor.execute('INSERT INTO otp_codes (user_id, code, expires_at) VALUES (?, ?, ?)', (user['id'], otp_code, expires_at))
+        cursor.execute('UPDATE users SET failed_attempts = 0, locked_until = NULL WHERE id = ?', (user['id'],))
 
         conn.commit()
         conn.close()
@@ -161,7 +162,7 @@ def verify_otp():
         cursor = conn.cursor()
 
         # Grabs the most recent OTP for the user from the database to verify against the submitted OTP.
-        cursor.execute(''' SELECT * FROM otp_codes WHERE user_id = ? AND used = 0 ORDER BY created_at DESC LIMIT 1 ''', (user_id,))
+        cursor.execute('SELECT * FROM otp_codes WHERE user_id = ? AND used = 0 ORDER BY created_at DESC LIMIT 1', (user_id,))
 
         otp_record = cursor.fetchone()
 
@@ -182,7 +183,7 @@ def verify_otp():
             return jsonify({'error': 'Invalid OTP code'}), 401
 
         # Mark the OTP as used in the database to prevent reuse and replay attacks.
-        cursor.execute(''' UPDATE otp_codes SET used = 1 WHERE id = ? ''', (otp_record['id'],))
+        cursor.execute('UPDATE otp_codes SET used = 1 WHERE id = ?', (otp_record['id'],))
 
         conn.commit()
 
@@ -197,9 +198,9 @@ def verify_otp():
         # Logs the successful login event for auditing purposes.
         log_event('LOGIN_SUCCESS', True, user_id=user_id, ip_address=request.remote_addr)
 
-        # Changes the session state to indicate that the user is now logged in.
-        session.pop('pending_user_id', None)
-        session.pop('pending_username', None)
+        # Clear session keys for awaiting user and mark user as authenticated.
+        session.pop('awaiting_user_id', None)
+        session.pop('awaiting_username', None)
         session['user_id'] = user_id
         session['username'] = username
         session['authenticated'] = True
