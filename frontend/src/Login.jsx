@@ -59,7 +59,7 @@ function Login({ onSuccess, onRegister }) {
     setLoading(true);
 
     try {
-      await axios.post('http://127.0.0.1:5000/login', { username, password }, { withCredentials: true });
+      await axios.post('http://localhost:5000/login', { username, password }, { withCredentials: true });
       onSuccess(username);
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
