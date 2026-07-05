@@ -1,10 +1,8 @@
 import sqlite3
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
-
-DATABASE_PATH = os.getenv('DATABASE_PATH', '../database/mfa.db')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE_PATH = os.path.join(BASE_DIR, '..', 'database', 'mfa.db')
 
 def get_db():
     conn = sqlite3.connect(DATABASE_PATH)

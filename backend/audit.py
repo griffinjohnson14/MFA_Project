@@ -1,10 +1,8 @@
 import sqlite3
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
-
-DATABASE_PATH = os.getenv('DATABASE_PATH', '../database/mfa.db')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE_PATH = os.path.join(BASE_DIR, '..', 'database', 'mfa.db')
 
 # This audit log will collect all the important secruity events that occur in the application.
 def log_event(event_type, success, user_id=None, ip_address=None):

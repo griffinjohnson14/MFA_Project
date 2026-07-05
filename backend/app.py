@@ -8,7 +8,7 @@ import os
 from database import get_db, init_db
 from auth import hash_password, verify_password, generate_otp, get_otp_expiration, is_otp_expired
 from sms import send_otp_sms
-from email_notify import send_login_notification
+from email_notify import send_login_notification, send_otp_email
 from audit import log_event
 
 # Load environment variables from .env file
@@ -57,6 +57,7 @@ def register():
 
         # Logged the registration event for auditing purposes.
         user_id = cursor.lastrowid
+        conn.commit() 
         conn.close()
 
         log_event('REGISTER', True, user_id=user_id, ip_address=request.remote_addr)
@@ -124,22 +125,22 @@ def login():
         conn.commit()
         conn.close()
 
-        # Sends the OTP to the user's phone number via SMS.
-        send_otp_sms(user['phone'], otp_code)
+        # Send the OTP to the user's email address for verification.
+        send_otp_email(user['email'], otp_code)
         log_event('OTP_SENT', True, user_id=user['id'], ip_address=request.remote_addr)
 
         # User ID is stored in the session to track the user during the OTP verification step.
         session['awaiting_user_id'] = user['id']
         session['awaiting_username'] = user['username']
 
-        return jsonify({'message': 'A OTP has been sent to your registered phone number'}), 200
+        return jsonify({'message': 'A OTP has been sent to your registered email address'}), 200
 
     except Exception as e:
         print(f"Login error: {e}")
         return jsonify({'error': 'Login failed'}), 500
     
 
-# OTP verification endpoint, client sends the OTP received via SMS. If the OTP is valid and not expired, the user is logged in successfully.
+# OTP verification endpoint, client sends the OTP received via email. If the OTP is valid and not expired, the user is logged in successfully.
 @app.route('/verify-otp', methods=['POST'])
 def verify_otp():
     data = request.get_json()

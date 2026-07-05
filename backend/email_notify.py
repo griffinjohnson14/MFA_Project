@@ -39,3 +39,29 @@ def send_login_notification(to_email, username):
     except Exception as e:
         print(f"Error sending email: {e}")
         return False
+    
+# This function sends an email containing the one-time password (OTP) to the user for verification purposes.
+def send_otp_email(to_email, otp_code):
+    try:
+        msg = MIMEMultipart()
+        msg['From'] = smtp_email
+        msg['To'] = to_email
+        msg['Subject'] = "MFA System - Your Verification Code"
+
+        body = f""" Hello, Your one-time verification code is: {otp_code} This code expires in 5 minutes. Do not share it with anyone. If you did not request this code, someone may be attempting to access your account.
+        - MFA Security System """
+
+        msg.attach(MIMEText(body, 'plain'))
+
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(smtp_email, smtp_password)
+        server.sendmail(smtp_email, to_email, msg.as_string())
+        server.quit()
+
+        print(f"OTP email sent successfully to {to_email}")
+        return True
+
+    except Exception as e:
+        print(f"Error sending OTP email: {e}")
+        return False
