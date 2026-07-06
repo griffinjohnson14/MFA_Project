@@ -52,6 +52,7 @@ Before running the project, make sure you have:
 - Node.js and npm
 - A Gmail account with 2-Step Verification enabled
 - A Gmail app password for SMTP
+ - (Optional) A Twilio account and API keys (only required if you enable SMS delivery)
 
 ## Backend Setup
 
@@ -66,7 +67,7 @@ cd MFA_Project
 
 ```bash
 cd backend
-python -m venv .venv
+python -m venv venv
 ```
 
 Windows:
@@ -84,8 +85,10 @@ source .venv/bin/activate
 ### 3. Install the backend dependencies
 
 ```bash
-pip install flask flask-cors bcrypt python-dotenv pyopenssl
+pip install flask flask-cors bcrypt python-dotenv pyopenssl twilio
 ```
+
+If you do not intend to use SMS delivery, the `twilio` package is optional — the project uses email-based OTPs by default. The `sms.py` file is included in the codebase but SMS support may be limited by trial account restrictions.
 
 ### 4. Create the .env file
 
@@ -174,6 +177,20 @@ http://localhost:3000
 - The backend uses SQLite to store users and OTP data.
 - Parameterized queries are used to help reduce the risk of SQL injection.
 - If the certificate files are not present, the backend will still run, but without HTTPS.
+
+### SMS / Twilio
+
+- `sms.py` contains a Twilio-based SMS sender. Twilio support is implemented but not required to run the project — email delivery is the default and fully functional.
+- If you want SMS delivery, add the following lines to your `.env` (replace with your values):
+
+```env
+# Optional Twilio settings (only required if you enable SMS delivery)
+TWILIO_ACCOUNT_SID=your_twilio_sid
+TWILIO_AUTH_TOKEN=your_twilio_auth_token
+TWILIO_PHONE_NUMBER=+1XXXXXXXXXX
+```
+
+- Note: Trial Twilio accounts may restrict which phone numbers can receive SMS; verify your Twilio configuration if SMS delivery is not working.
 
 ## AI Usage Disclosure
 
