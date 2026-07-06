@@ -239,7 +239,14 @@ def logout():
 
     return jsonify({'message': 'Logged out successfully'}), 200
 
-# Start the Flask application, initializing the database if it doesn't exist. Sets the application to run in debug mode on port 5000.
+# Start the Flask application, initializing the database if it doesn't exist.
+# Serve HTTPS when the generated certificate files are available.
 if __name__ == '__main__':
     init_db()
-    app.run(debug=True, port=5000, ssl_context=('cert.pem', 'key.pem'))
+    cert_path = os.path.join(os.path.dirname(__file__), 'cert.pem')
+    key_path = os.path.join(os.path.dirname(__file__), 'key.pem')
+
+    if os.path.exists(cert_path) and os.path.exists(key_path):
+        app.run(debug=True, port=5000, ssl_context=(cert_path, key_path))
+    else:
+        app.run(debug=True, port=5000)
