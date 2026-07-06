@@ -85,13 +85,13 @@ function Register({ onSuccess }) {
     <div style={card}>
       <h2 style={{ color: '#fff', marginBottom: '24px', fontSize: '1.2rem' }}>Create Account</h2>
 
-      // Display success feedback after a successful registration.
+      {/* Display success feedback after a successful registration. */}
       {message && <p style={{ color: '#06d6a0', fontSize: '0.85rem', marginBottom: '16px' }}>{message}</p>}
 
-      // Display error feedback if registration fails.
+      {/* Display error feedback if registration fails. */}
       {error && <p style={{ color: '#ff4d5a', fontSize: '0.85rem', marginBottom: '16px' }}>{error}</p>}
 
-      // Registration form with input fields for username, password, phone number, and email.
+      {/* Registration form with input fields for username, password, phone number, and email. */}
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '16px' }}>
           <label style={labelStyle}>Username</label>

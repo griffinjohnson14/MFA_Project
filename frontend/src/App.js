@@ -51,7 +51,7 @@ function App() {
         <h1 style={styles.title}>MFA System</h1>
         <p style={styles.subtitle}>Secure sign-in with multi-factor authentication</p>
 
-        // Render the appropriate screen based on the current state.
+        {/* Render the appropriate screen based on the current state. */}
         {screen === 'register' && <Register onSuccess={() => setScreen('login')} />}
         {screen === 'login' && (
           <Login

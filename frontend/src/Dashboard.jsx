@@ -44,7 +44,7 @@ function Dashboard({ username, onLogout }) {
       <p style={{ color: '#e2e8f0', fontSize: '1rem', marginBottom: '4px' }}>Welcome, <strong>{username}</strong></p>
       <p style={{ color: '#7b8db0', fontSize: '0.82rem', marginBottom: '24px' }}>Both authentication factors verified successfully.</p>
 
-      // Show a short summary of the authentication steps that passed.
+      {/* Show a short summary of the authentication steps that passed. */}
       <div
         style={{
           backgroundColor: '#0f1117',

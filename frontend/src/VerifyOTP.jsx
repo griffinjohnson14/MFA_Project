@@ -69,10 +69,10 @@ function VerifyOTP({ onSuccess }) {
       <h2 style={{ color: '#fff', marginBottom: '8px', fontSize: '1.2rem' }}>Verify Your Identity</h2>
       <p style={{ color: '#7b8db0', fontSize: '0.85rem', marginBottom: '24px' }}>Enter the 6-digit code sent to your email address.</p>
 
-      // Display error feedback if verification fails.
+      {/* Display error feedback if verification fails. */}
       {error && <p style={{ color: '#ff4d5a', fontSize: '0.85rem', marginBottom: '16px' }}>{error}</p>}
 
-      // Verification form for entering the OTP code.
+      {/* Verification form for entering the OTP code. */}
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '16px' }}>
           <label style={{ fontSize: '0.8rem', color: '#7b8db0', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Verification Code</label>
