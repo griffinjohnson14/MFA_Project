@@ -38,11 +38,11 @@ const styles = {
   },
 };
 
-{/* Main App component that manages the state of the application and renders different screens based on user actions. */}
+// Main App component that manages the state of the application and renders different screens based on user actions.
 function App() {
-  {/* State to manage the current screen and the logged-in username. */}
+  // State to manage the current screen and the logged-in username.
   const [screen, setScreen] = useState('login');
-  {/* State to store the username of the logged-in user. */}
+  // State to store the username of the logged-in user.
   const [username, setUsername] = useState('');
 
   return (
@@ -51,7 +51,7 @@ function App() {
         <h1 style={styles.title}>MFA System</h1>
         <p style={styles.subtitle}>Secure sign-in with multi-factor authentication</p>
 
-        {/* Render the appropriate screen based on the current state. */}
+        // Render the appropriate screen based on the current state.
         {screen === 'register' && <Register onSuccess={() => setScreen('login')} />}
         {screen === 'login' && (
           <Login

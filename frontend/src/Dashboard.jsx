@@ -24,9 +24,9 @@ const buttonStyle = {
   letterSpacing: '0.05em',
 };
 
-{/* Dashboard component that displays a welcome message and provides a logout option. */}
+// Dashboard component that displays a welcome message and provides a logout option.
 function Dashboard({ username, onLogout }) {
-  {/* Send a logout request to the backend and return the user to the login screen. */}
+  // Send a logout request to the backend and return the user to the login screen.
   async function handleLogout() {
     try {
       await axios.post('https://127.0.0.1:5000/logout', {}, { withCredentials: true });
@@ -44,7 +44,7 @@ function Dashboard({ username, onLogout }) {
       <p style={{ color: '#e2e8f0', fontSize: '1rem', marginBottom: '4px' }}>Welcome, <strong>{username}</strong></p>
       <p style={{ color: '#7b8db0', fontSize: '0.82rem', marginBottom: '24px' }}>Both authentication factors verified successfully.</p>
 
-      {/* Show a short summary of the authentication steps that passed. */}
+      // Show a short summary of the authentication steps that passed.
       <div
         style={{
           backgroundColor: '#0f1117',

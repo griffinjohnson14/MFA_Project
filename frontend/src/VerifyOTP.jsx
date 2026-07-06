@@ -40,20 +40,20 @@ const buttonStyle = {
   letterSpacing: '0.05em'
 };
 
-{/* VerifyOTP component for handling two-factor authentication code submission. */}
+// VerifyOTP component for handling two-factor authentication code submission.
 function VerifyOTP({ onSuccess }) {
-  {/* State to manage the OTP input, error feedback, and loading state. */}
+  // State to manage the OTP input, error feedback, and loading state.
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  {/* Submit the OTP to the backend for verification. */}
+  // Submit the OTP to the backend for verification.
   async function handleSubmit(e) {
     e.preventDefault();
     setError('');
     setLoading(true);
 
-    {/* Send the OTP to the backend for verification. */}
+    // Send the OTP to the backend for verification.
     try {
       await axios.post('https://127.0.0.1:5000/verify-otp', { otp }, { withCredentials: true });
       onSuccess();
@@ -69,10 +69,10 @@ function VerifyOTP({ onSuccess }) {
       <h2 style={{ color: '#fff', marginBottom: '8px', fontSize: '1.2rem' }}>Verify Your Identity</h2>
       <p style={{ color: '#7b8db0', fontSize: '0.85rem', marginBottom: '24px' }}>Enter the 6-digit code sent to your email address.</p>
 
-      {/* Display error feedback if verification fails. */}
+      // Display error feedback if verification fails.
       {error && <p style={{ color: '#ff4d5a', fontSize: '0.85rem', marginBottom: '16px' }}>{error}</p>}
 
-      {/* Verification form for entering the OTP code. */}
+      // Verification form for entering the OTP code.
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '16px' }}>
           <label style={{ fontSize: '0.8rem', color: '#7b8db0', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Verification Code</label>

@@ -44,9 +44,9 @@ const buttonStyle = {
   letterSpacing: '0.05em',
 };
 
-{/* Register component for user registration and account creation. */}
+// Register component for user registration and account creation.
 function Register({ onSuccess }) {
-  {/* State to manage the registration form data and submission feedback. */}
+  // State to manage the registration form data and submission feedback.
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -57,13 +57,13 @@ function Register({ onSuccess }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  {/* Handle input changes and update form data state. */}
+  // Handle input changes and update form data state.
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   }
 
-  {/* Submit the registration details to the backend API. */}
+  // Submit the registration details to the backend API.
   async function handleSubmit(e) {
     e.preventDefault();
     setError('');
@@ -85,13 +85,13 @@ function Register({ onSuccess }) {
     <div style={card}>
       <h2 style={{ color: '#fff', marginBottom: '24px', fontSize: '1.2rem' }}>Create Account</h2>
 
-      {/* Display success feedback after a successful registration. */}
+      // Display success feedback after a successful registration.
       {message && <p style={{ color: '#06d6a0', fontSize: '0.85rem', marginBottom: '16px' }}>{message}</p>}
 
-      {/* Display error feedback if registration fails. */}
+      // Display error feedback if registration fails.
       {error && <p style={{ color: '#ff4d5a', fontSize: '0.85rem', marginBottom: '16px' }}>{error}</p>}
 
-      {/* Registration form with input fields for username, password, phone number, and email. */}
+      // Registration form with input fields for username, password, phone number, and email.
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '16px' }}>
           <label style={labelStyle}>Username</label>
