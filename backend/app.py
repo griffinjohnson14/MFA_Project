@@ -18,9 +18,12 @@ app = Flask(__name__)
 
 # Secret key for session management through Flask sessions.
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'fallback_dev_key')
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_HTTPONLY'] = True
 
 # CORS lets the frontend communicate with the backend.
-CORS(app, supports_credentials=True)
+CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://127.0.0.1:3000", "https://localhost:3000", "https://127.0.0.1:3000"]}}, supports_credentials=True)
 
 # Maximum number of failed login attempts before lockout and lockout duration in minutes.
 MAX_FAILED_ATTEMPTS = 6
@@ -239,4 +242,4 @@ def logout():
 # Start the Flask application, initializing the database if it doesn't exist. Sets the application to run in debug mode on port 5000.
 if __name__ == '__main__':
     init_db()
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5000, ssl_context=('cert.pem', 'key.pem'))

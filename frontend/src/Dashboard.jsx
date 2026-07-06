@@ -29,7 +29,7 @@ function Dashboard({ username, onLogout }) {
   {/* Send a logout request to the backend and return the user to the login screen. */}
   async function handleLogout() {
     try {
-      await axios.post('http://localhost:5000/logout', {}, { withCredentials: true });
+      await axios.post('https://127.0.0.1:5000/logout', {}, { withCredentials: true });
     } catch (err) {
       console.error('Logout error:', err);
     }

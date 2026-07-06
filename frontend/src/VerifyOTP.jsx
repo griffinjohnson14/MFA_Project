@@ -55,7 +55,7 @@ function VerifyOTP({ onSuccess }) {
 
     {/* Send the OTP to the backend for verification. */}
     try {
-      await axios.post('http://localhost:5000/verify-otp', { otp }, { withCredentials: true });
+      await axios.post('https://127.0.0.1:5000/verify-otp', { otp }, { withCredentials: true });
       onSuccess();
     } catch (err) {
       setError(err.response?.data?.error || 'Verification failed');
