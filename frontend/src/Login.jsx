@@ -58,9 +58,11 @@ function Login({ onSuccess, onRegister }) {
     setError('');
     setLoading(true);
 
+    const trimmedUsername = username.trim();
+
     try {
-      await axios.post('https://127.0.0.1:5000/login', { username, password }, { withCredentials: true });
-      onSuccess(username);
+      await axios.post('https://127.0.0.1:5000/login', { username: trimmedUsername, password }, { withCredentials: true });
+      onSuccess(trimmedUsername);
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
     } finally {

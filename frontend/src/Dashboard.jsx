@@ -40,7 +40,7 @@ function Dashboard({ username, onLogout }) {
   return (
     <div style={card}>
       <p style={{ fontSize: '2rem', marginBottom: '8px' }}>✓</p>
-      <h2 style={{ color: '#06d6a0', fontSize: '1.2rem', marginBottom: '8px' }}>Access Granted</h2>
+      <h2 style={{ color: '#ff9f43', fontSize: '1.2rem', marginBottom: '8px' }}>Access Granted</h2>
       <p style={{ color: '#e2e8f0', fontSize: '1rem', marginBottom: '4px' }}>Welcome, <strong>{username}</strong></p>
       <p style={{ color: '#7b8db0', fontSize: '0.82rem', marginBottom: '24px' }}>Both authentication factors verified successfully.</p>
 
@@ -55,10 +55,10 @@ function Dashboard({ username, onLogout }) {
           textAlign: 'left',
         }}
       >
-        <p style={{ color: '#7b8db0', fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>Session Info</p>
-        <p style={{ color: '#e2e8f0', fontSize: '0.85rem' }}>⬡ Factor 1: Password verified</p>
-        <p style={{ color: '#e2e8f0', fontSize: '0.85rem', marginTop: '4px' }}>⬡ Factor 2: OTP verified</p>
-        <p style={{ color: '#e2e8f0', fontSize: '0.85rem', marginTop: '4px' }}>⬡ Audit log: Session recorded</p>
+        <p style={{ color: '#7b8db0', fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>Authentication Summary</p>
+        <p style={{ color: '#e2e8f0', fontSize: '0.85rem' }}>• Factor 1: Password verified</p>
+        <p style={{ color: '#e2e8f0', fontSize: '0.85rem', marginTop: '4px' }}>• Factor 2: OTP verified</p>
+        <p style={{ color: '#e2e8f0', fontSize: '0.85rem', marginTop: '4px' }}>• Audit log: Session recorded</p>
       </div>
 
       <button style={buttonStyle} onClick={handleLogout}>Sign Out</button>

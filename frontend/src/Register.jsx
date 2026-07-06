@@ -70,8 +70,11 @@ function Register({ onSuccess }) {
     setMessage('');
     setLoading(true);
 
+    const trimmedUsername = formData.username.trim();
+    const cleanedFormData = { ...formData, username: trimmedUsername };
+
     try {
-      const response = await axios.post('https://127.0.0.1:5000/register', formData, { withCredentials: true });
+      const response = await axios.post('https://127.0.0.1:5000/register', cleanedFormData, { withCredentials: true });
       setMessage(response.data.message);
       setTimeout(() => onSuccess?.(), 2000);
     } catch (err) {
