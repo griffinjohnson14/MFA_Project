@@ -199,7 +199,8 @@ I used AI throughout the development of this project, mainly for help with code 
 The AI assistance was used roughly as follows:
 - About 65% for code generation
 - About 20% for debugging
-- About 15% for design and documentation help
+- About 15% for design 
+- About 10% for documentation help
 
 ## Final Note
 
