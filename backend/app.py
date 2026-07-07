@@ -98,7 +98,7 @@ def login():
             locked_until = datetime.strptime(user['locked_until'], '%Y-%m-%d %H:%M:%S')
             if datetime.utcnow() < locked_until:
                 log_event('LOGIN_FAIL', False, user_id=user['id'], ip_address=request.remote_addr)
-                return jsonify({'error': f'Account locked. Try again after {user["locked_until"]}'}), 423
+                return jsonify({'error': f'Account locked. Try again after {user["locked_until"]} UTC'}), 423
 
         # Verify the provided password against the stored hashed password.
         if not verify_password(password, user['password_hash']):
